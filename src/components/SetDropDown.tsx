@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { CircularProgress } from '@material-ui/core';
-import { SetDescription } from './CubeSelector';
+import { SetDescription } from '@/util/types';
 
 export interface ISetDropDownProps {
   setList: SetDescription[];

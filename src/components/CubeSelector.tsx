@@ -3,11 +3,7 @@ import { Button } from '@material-ui/core';
 import React from 'react';
 import { SetDropDown } from './SetDropDown';
 import { SelectedSetList } from './SelectedSetList';
-
-export interface SetDescription {
-  code: string;
-  name: string;
-}
+import { SetDescription } from '@/util/types';
 
 export const CubeSelector = () => {
   const [setList, setSetList] = React.useState<SetDescription[] | undefined>(
@@ -23,7 +19,7 @@ export const CubeSelector = () => {
       setSetList(data);
     });
   }
-
+  console.log(setList);
   return (
     <div>
       <div style={{ display: 'flex' }}>

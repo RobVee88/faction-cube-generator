@@ -7,12 +7,12 @@ export const fetchApiData = async () => {
     request.send();
     request.onload = () => {
       const data = request.response;
-
       resolve(
         Object.keys(data?.data)?.map((set) => {
           return {
             code: data.data[set].code,
             name: data.data[set].name,
+            cards: data.data[set].cards,
           };
         }),
       );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, ListItem, ListItemText, Button } from '@material-ui/core';
-import { SetDescription } from './CubeSelector';
+import { SetDescription } from '@/util/types';
 
 export interface ISelectedSetListProps {
   selectedSets: SetDescription[];
