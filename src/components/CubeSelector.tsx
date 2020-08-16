@@ -19,29 +19,33 @@ export const CubeSelector = () => {
       setSetList(data);
     });
   }
-  console.log(setList);
+
   return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <SetDropDown
-          setList={setList}
-          setSelectedSet={setSelectedSet}
-          selectedSet={selectedSet}
-        />
-        <Button
-          onClick={() => {
-            if (selectedSet) {
-              setSelectedSets((previous) => [...previous, selectedSet]);
-              setSetList(
-                setList.filter((set) => set.code !== selectedSet.code),
-              );
-              setSelectedSet(undefined);
-            }
-          }}
-        >
-          Add Set
-        </Button>
+    <div style={{ display: 'flex' }}>
+      <div>
+        <div style={{ display: 'flex' }}>
+          <SetDropDown
+            setList={setList}
+            setSelectedSet={setSelectedSet}
+            selectedSet={selectedSet}
+          />
+          <Button
+            onClick={() => {
+              if (selectedSet) {
+                setSelectedSets((previous) => [...previous, selectedSet]);
+                setSetList(
+                  setList.filter((set) => set.code !== selectedSet.code),
+                );
+                setSelectedSet(undefined);
+              }
+            }}
+          >
+            Add Set
+          </Button>
+        </div>
+        <Button disabled={!selectedSets.length}>Generate Cube</Button>
       </div>
+
       <SelectedSetList
         selectedSets={selectedSets}
         setSelectedSets={setSelectedSets}
