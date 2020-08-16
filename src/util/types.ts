@@ -1,3 +1,16 @@
+export enum Rarity {
+  mythic = 'mythic',
+  rare = 'rare',
+  uncommon = 'uncommon',
+  common = 'common',
+}
+
+export interface RarityDistribution {
+  rares: number;
+  uncommons: number;
+  commons: number;
+}
+
 export interface SetDescription {
   code: string;
   name: string;

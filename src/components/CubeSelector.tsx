@@ -3,7 +3,8 @@ import { Button } from '@material-ui/core';
 import React from 'react';
 import { SetDropDown } from './SetDropDown';
 import { SelectedSetList } from './SelectedSetList';
-import { SetDescription } from '@/util/types';
+import { SetDescription, RarityDistribution } from '@/util/types';
+import { generateCube } from '@/util/cube';
 
 export const CubeSelector = () => {
   const [setList, setSetList] = React.useState<SetDescription[] | undefined>(
@@ -13,6 +14,10 @@ export const CubeSelector = () => {
     SetDescription | undefined
   >(undefined);
   const [selectedSets, setSelectedSets] = React.useState<SetDescription[]>([]);
+  const [rarityDistribution, setRarityDistribution] = React.useState<
+    RarityDistribution
+  >({ rares: 1, uncommons: 4, commons: 10 });
+  const [cubeSize, setCubeSize] = React.useState<number>(360);
 
   if (!setList) {
     fetchApiData().then((data: SetDescription[]) => {
@@ -43,7 +48,16 @@ export const CubeSelector = () => {
             Add Set
           </Button>
         </div>
-        <Button disabled={!selectedSets.length}>Generate Cube</Button>
+        <Button
+          disabled={!selectedSets.length}
+          onClick={() =>
+            console.log(
+              generateCube(selectedSets, cubeSize, rarityDistribution),
+            )
+          }
+        >
+          Generate Cube
+        </Button>
       </div>
 
       <SelectedSetList
