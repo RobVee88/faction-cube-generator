@@ -1,10 +1,6 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
-import { PageProps } from 'gatsby';
 
-const NotFound: React.FC<PageProps> = () => (
-  <main>
-    <p>Sorry, page not found!</p>
-  </main>
-);
+const NotFound = () => <Typography>Sorry, page not found!</Typography>;
 
 export default NotFound;

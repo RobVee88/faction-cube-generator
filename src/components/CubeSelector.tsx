@@ -37,7 +37,7 @@ export const CubeSelector = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div>
           <div style={{ display: 'flex' }}>
             <SetDropDown

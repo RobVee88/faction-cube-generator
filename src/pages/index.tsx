@@ -1,13 +1,15 @@
-import { PageProps } from 'gatsby';
-import React from 'react';
 import { CubeSelector } from '@/components/CubeSelector';
+import { Box, Typography } from '@material-ui/core';
+import React from 'react';
 
-const Home: React.FC<PageProps> = () => (
-  <main>
-    <p>Welcome to the Faction Cube Generator!</p>
-    <p>Props to Count_Borkula for the idea and original python code!</p>
+const Home = () => (
+  <Box style={{ textAlign: 'center' }}>
+    <Typography>Welcome to the Faction Cube Generator!</Typography>
+    <Typography>
+      Props to Count_Borkula for the idea and original python code!
+    </Typography>
     <CubeSelector />
-  </main>
+  </Box>
 );
 
 export default Home;
