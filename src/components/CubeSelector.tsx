@@ -1,5 +1,5 @@
 import { fetchApiData } from '@/util/api';
-import { Button, TextareaAutosize } from '@material-ui/core';
+import { Button, TextareaAutosize, CircularProgress } from '@material-ui/core';
 import React from 'react';
 import { SetDropDown } from './SetDropDown';
 import { SelectedSetList } from './SelectedSetList';
@@ -26,11 +26,26 @@ export const CubeSelector = () => {
     RarityDistribution
   >({ rares: 1, uncommons: 4, commons: 10 });
   const [cubeSize, setCubeSize] = React.useState<number>(360);
-
   const [cube, setCube] = React.useState<Card[]>([]);
+  const [fetching, setFetching] = React.useState<boolean>(false);
 
   if (!setList) {
-    fetchApiData().then((data: SetDescription[]) => {
+    fetchApiData((data) => {
+      return Object.keys(data?.data)
+        ?.filter(
+          (set) =>
+            data.data[set].type === 'core' ||
+            data.data[set].type === 'expansion' ||
+            data.data[set].type === 'masters' ||
+            data.data[set].type === 'funny',
+        )
+        ?.map((set) => {
+          return {
+            code: data.data[set].code,
+            name: data.data[set].name,
+          };
+        });
+    }, 'SetList').then((data: SetDescription[]) => {
       setSetList(data);
     });
   }
@@ -48,24 +63,35 @@ export const CubeSelector = () => {
             <Button
               onClick={() => {
                 if (selectedSet) {
-                  setSelectedSets((previous) => [...previous, selectedSet]);
-                  setSetList(
-                    setList.filter((set) => set.code !== selectedSet.code),
-                  );
-                  setSelectedSet(undefined);
+                  setFetching(true);
+                  return fetchApiData((data) => {
+                    return {
+                      code: data.data.code,
+                      name: data.data.name,
+                      cards: data.data.cards,
+                    };
+                  }, `${selectedSet.code}`).then((setData: SetDescription) => {
+                    setSelectedSets((previous) => [...previous, setData]);
+                    setSetList(
+                      setList.filter((set) => set.code !== setData.code),
+                    );
+                    setSelectedSet(undefined);
+                    setFetching(false);
+                  });
                 }
               }}
+              disabled={fetching}
             >
-              Add Set
+              {fetching ? <CircularProgress /> : 'Add Set'}
             </Button>
           </div>
           <Button
-            disabled={!selectedSets.length}
+            disabled={!selectedSets.length || fetching}
             onClick={() =>
               setCube(generateCube(selectedSets, cubeSize, rarityDistribution))
             }
           >
-            Generate Cube
+            {fetching ? <CircularProgress /> : 'Generate Cube'}
           </Button>
         </div>
 

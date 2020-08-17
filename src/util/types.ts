@@ -14,7 +14,7 @@ export interface RarityDistribution {
 export interface SetDescription {
   code: string;
   name: string;
-  cards: Card[];
+  cards?: Card[];
 }
 
 export interface Card {
