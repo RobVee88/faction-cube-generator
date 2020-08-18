@@ -1,18 +1,16 @@
 import { fetchApiData } from '@/util/api';
-import { Button, TextareaAutosize, CircularProgress } from '@material-ui/core';
+import {
+  Button,
+  TextareaAutosize,
+  CircularProgress,
+  Typography,
+} from '@material-ui/core';
 import React from 'react';
 import { SetDropDown } from './SetDropDown';
 import { SelectedSetList } from './SelectedSetList';
 import { SetDescription, RarityDistribution, Card } from '@/util/types';
 import { generateCube } from '@/util/cube';
-
-const convertCubeToCockatriceFormatting = (cube: Card[]) => {
-  let cockatriceFormattedString = '';
-  cube.forEach((card) => {
-    cockatriceFormattedString = cockatriceFormattedString + card.name + '\n';
-  });
-  return cockatriceFormattedString;
-};
+import { convertCubeToCockatriceFormatting } from '@/util/helpers';
 
 export const CubeSelector = () => {
   const [setList, setSetList] = React.useState<SetDescription[] | undefined>(
@@ -28,6 +26,10 @@ export const CubeSelector = () => {
   const [cubeSize, setCubeSize] = React.useState<number>(360);
   const [cube, setCube] = React.useState<Card[]>([]);
   const [fetching, setFetching] = React.useState<boolean>(false);
+
+  const cardPoolSize = selectedSets
+    ?.map((set) => set.cards?.length || 0)
+    .reduce((a, b) => a + b, 0);
 
   if (!setList) {
     fetchApiData((data) => {
@@ -70,14 +72,17 @@ export const CubeSelector = () => {
                       name: data.data.name,
                       cards: data.data.cards,
                     };
-                  }, `${selectedSet.code}`).then((setData: SetDescription) => {
-                    setSelectedSets((previous) => [...previous, setData]);
-                    setSetList(
-                      setList.filter((set) => set.code !== setData.code),
-                    );
-                    setSelectedSet(undefined);
-                    setFetching(false);
-                  });
+                    //ugly solution :(
+                  }, `${selectedSet.code === 'CON' ? selectedSet.code + '_' : selectedSet.code}`).then(
+                    (setData: SetDescription) => {
+                      setSelectedSets((previous) => [...previous, setData]);
+                      setSetList(
+                        setList.filter((set) => set.code !== setData.code),
+                      );
+                      setSelectedSet(undefined);
+                      setFetching(false);
+                    },
+                  );
                 }
               }}
               disabled={fetching}
@@ -85,14 +90,22 @@ export const CubeSelector = () => {
               {fetching ? <CircularProgress /> : 'Add Set'}
             </Button>
           </div>
-          <Button
-            disabled={!selectedSets.length || fetching}
-            onClick={() =>
-              setCube(generateCube(selectedSets, cubeSize, rarityDistribution))
-            }
-          >
-            {fetching ? <CircularProgress /> : 'Generate Cube'}
-          </Button>
+          <div style={{ display: 'flex' }}>
+            <div>
+              <Typography variant="h5">{`Selected Set card pool size: ${cardPoolSize}`}</Typography>
+              <Typography variant="h5">{`Generated Cube card pool size: ${cube.length}`}</Typography>
+            </div>
+            <Button
+              disabled={!selectedSets.length || fetching}
+              onClick={() =>
+                setCube(
+                  generateCube(selectedSets, cubeSize, rarityDistribution),
+                )
+              }
+            >
+              {fetching ? <CircularProgress /> : 'Generate Cube'}
+            </Button>
+          </div>
         </div>
 
         <SelectedSetList
