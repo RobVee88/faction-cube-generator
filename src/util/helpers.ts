@@ -21,9 +21,9 @@ export const getRandomCards = (cards: Card[], amount: number) => {
   return result;
 };
 
-export const getColorDistribution = (set: SetDescription) => {
+export const getColorDistribution = (cards: Card[]) => {
   let colorIdentityStats = {};
-  set.cards.forEach((card) => {
+  cards.forEach((card) => {
     if (!card.supertypes.find((type) => type === 'Basic')) {
       if (card.type === 'Land') {
         if (colorIdentityStats.hasOwnProperty('land')) {
