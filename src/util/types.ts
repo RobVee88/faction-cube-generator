@@ -6,9 +6,9 @@ export enum Rarity {
 }
 
 export interface RarityDistribution {
-  rares: number;
-  uncommons: number;
-  commons: number;
+  rare: number;
+  uncommon: number;
+  common: number;
 }
 
 export interface SetDescription {

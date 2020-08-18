@@ -22,7 +22,7 @@ export const CubeSelector = () => {
   const [selectedSets, setSelectedSets] = React.useState<SetDescription[]>([]);
   const [rarityDistribution, setRarityDistribution] = React.useState<
     RarityDistribution
-  >({ rares: 1, uncommons: 4, commons: 10 });
+  >({ rare: 1, uncommon: 4, common: 10 });
   const [cubeSize, setCubeSize] = React.useState<number>(360);
   const [cube, setCube] = React.useState<Card[]>([]);
   const [fetching, setFetching] = React.useState<boolean>(false);
