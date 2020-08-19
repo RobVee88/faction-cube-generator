@@ -1,4 +1,4 @@
-import { Card, SetDescription } from './types';
+import { Card } from './types';
 
 export const convertCubeToCockatriceFormatting = (cube: Card[]) => {
     let cockatriceFormattedString = '';
@@ -42,5 +42,9 @@ export const getColorDistribution = (cards: Card[]) => {
             }
         }
     });
-    return colorIdentityStats;
+    const toRet = [];
+    for (const [key, value] of Object.entries(colorIdentityStats)) {
+        toRet.push({ color: key, amount: value });
+    }
+    return toRet.sort((a, b) => a.amount - b.amount);
 };
