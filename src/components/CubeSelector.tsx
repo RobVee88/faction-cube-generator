@@ -128,12 +128,24 @@ export const CubeSelector = () => {
                 />
             </div>
             {cube.length ? (
-                <TextareaAutosize
-                    rowsMin={15}
-                    style={{ width: '100%', resize: 'none' }}
-                    placeholder='Generate a cube to display cards here'
-                    value={convertCubeToCockatriceFormatting(cube)}
-                />
+                <div>
+                    <Button
+                        disabled={!cube.length || fetching}
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                convertCubeToCockatriceFormatting(cube)
+                            );
+                        }}
+                    >
+                        Copy Cube to Clipboard
+                    </Button>
+                    <TextareaAutosize
+                        rowsMin={15}
+                        style={{ width: '100%', resize: 'none' }}
+                        placeholder='Generate a cube to display cards here'
+                        value={convertCubeToCockatriceFormatting(cube)}
+                    />
+                </div>
             ) : (
                 <></>
             )}
