@@ -112,7 +112,11 @@ export const generateCube = (
                             return (
                                 card.rarity === Rarity.common &&
                                 card.colorIdentity.join('') ===
-                                    primaryColors[colorIndex]
+                                    primaryColors[colorIndex] &&
+                                !cube.includes(card) &&
+                                !card.supertypes.find(
+                                    (type) => type === 'Basic'
+                                )
                             );
                         }),
                         1
@@ -131,7 +135,11 @@ export const generateCube = (
                             (card) =>
                                 card.rarity === Rarity.common &&
                                 card.colorIdentity.join('') ===
-                                    primaryColors[colorIndex]
+                                    primaryColors[colorIndex] &&
+                                !cube.includes(card) &&
+                                !card.supertypes.find(
+                                    (type) => type === 'Basic'
+                                )
                         ),
                         1
                     ),
