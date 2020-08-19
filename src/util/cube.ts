@@ -1,5 +1,5 @@
 import { getColorDistribution, getRandomCards } from './helpers';
-import { Card, RarityDistribution, SetDescription } from './types';
+import { Card, RarityDistribution, SetDescription, Rarity } from './types';
 
 export const generateCube = (
     selectedSets: SetDescription[],
@@ -22,37 +22,52 @@ export const generateCube = (
                     : [...cards, card],
             []
         );
-        const colorDistribution = getColorDistribution(uniqueSet);
+        const colorDistribution: {
+            color: string;
+            amount: number;
+        }[] = getColorDistribution(uniqueSet);
 
+        let finalCardsForThisSet = cardsPerSet;
+        if (remainderBySet > 0) {
+            finalCardsForThisSet++;
+            remainderBySet--;
+        }
+        const totalRaresToBePicked = Math.floor(
+            (rarityDistribution[Rarity.rare] / 15) * finalCardsForThisSet
+        );
+        const totalUncommonsToBePicked = Math.floor(
+            (rarityDistribution[Rarity.uncommon] / 15) * finalCardsForThisSet
+        );
+        let totalCommonsToBePicked = Math.floor(
+            (rarityDistribution[Rarity.common] / 15) * finalCardsForThisSet
+        );
+
+        let remainderByRarity =
+            finalCardsForThisSet -
+            (totalRaresToBePicked +
+                totalUncommonsToBePicked +
+                totalCommonsToBePicked);
+        totalCommonsToBePicked = totalCommonsToBePicked + remainderByRarity;
+
+        let pickedSofar = 0;
         rarities.forEach((rarity) => {
-            let totalToBePicked = Math.floor(
-                (rarityDistribution[rarity[0]] / 15) * cardsPerSet
-            );
-            if (remainderBySet > 0) {
-                totalToBePicked++;
-                remainderBySet--;
-            }
-            let pickedSofar = 0;
-            const remainingColorIdentities: string[] = [];
-            Object.keys(colorDistribution).forEach((colorIdentity) => {
-                const numberOfCardsByColor = Math.floor(
-                    (colorDistribution[colorIdentity] / uniqueSet.length) *
-                        cardsPerSet
-                );
-                const numberOfRarityByColor = Math.floor(
-                    (numberOfCardsByColor / 15) * rarityDistribution[rarity[0]]
-                );
+            colorDistribution.forEach((colorIdentity) => {
+                const numberOfCardsByColor =
+                    (colorIdentity.amount / uniqueSet.length) * cardsPerSet;
+                let numberOfRarityByColor =
+                    (numberOfCardsByColor / 15) * rarityDistribution[rarity[0]];
                 if (
                     numberOfRarityByColor < 1 &&
                     (numberOfCardsByColor / 15) *
                         rarityDistribution[rarity[0]] >
                         0
                 ) {
-                    remainingColorIdentities.push(colorIdentity);
+                    numberOfRarityByColor = 1;
                 } else {
+                    numberOfRarityByColor = Math.floor(numberOfRarityByColor);
                     const randomCards = getRandomCards(
                         uniqueSet.filter((card) => {
-                            if (colorIdentity === 'land') {
+                            if (colorIdentity.color === 'land') {
                                 return (
                                     card.type === 'Land' &&
                                     !card.supertypes.find(
@@ -70,7 +85,7 @@ export const generateCube = (
                             ) {
                                 return (
                                     card.colorIdentity.join('') ===
-                                        colorIdentity &&
+                                        colorIdentity.color &&
                                     rarity.find(
                                         (rarity) => card.rarity === rarity
                                     )
@@ -83,23 +98,47 @@ export const generateCube = (
                     cube = [...cube, ...randomCards];
                 }
             });
-            let remainder = totalToBePicked - pickedSofar;
-            if (remainder > 0) {
-                const extraAdded = getRandomCards(
-                    uniqueSet.filter((card) => {
-                        return (
-                            remainingColorIdentities.find(
-                                (colorIdentity) =>
-                                    card.colorIdentity.join('') ===
-                                    colorIdentity
-                            ) && rarity.find((rarity) => card.rarity === rarity)
-                        );
-                    }),
-                    remainder
-                );
-                cube = [...cube, ...extraAdded];
-            }
         });
+        const primaryColors = ['W', 'U', 'B', 'R', 'G'];
+        let remainder = finalCardsForThisSet - pickedSofar;
+        if (remainder > 0) {
+            let colorIndex = 0;
+            for (let i = remainder; i > 0; i--) {
+                if (colorIndex > 4) colorIndex = 0;
+                cube = [
+                    ...cube,
+                    ...getRandomCards(
+                        uniqueSet.filter((card) => {
+                            return (
+                                card.rarity === Rarity.common &&
+                                card.colorIdentity.join('') ===
+                                    primaryColors[colorIndex]
+                            );
+                        }),
+                        1
+                    ),
+                ];
+                colorIndex++;
+            }
+        } else if (remainder < 0) {
+            let colorIndex = 0;
+            for (let i = remainder; i < 0; i++) {
+                if (colorIndex > 4) colorIndex = 0;
+                cube = [
+                    ...cube,
+                    ...getRandomCards(
+                        uniqueSet.filter(
+                            (card) =>
+                                card.rarity === Rarity.common &&
+                                card.colorIdentity.join('') ===
+                                    primaryColors[colorIndex]
+                        ),
+                        1
+                    ),
+                ];
+                colorIndex++;
+            }
+        }
     });
     return cube;
 };
