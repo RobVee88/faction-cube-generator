@@ -86,13 +86,14 @@ export const CubeSelector = () => {
                             </Typography>
                         </div>
                     </div>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', marginTop: 10 }}>
                         <SetDropDown
                             setList={setList}
                             setSelectedSet={setSelectedSet}
                             selectedSet={selectedSet}
                         />
                         <Button
+                            style={{ marginLeft: 10 }}
                             color='primary'
                             variant='outlined'
                             onClick={() => {
@@ -129,6 +130,7 @@ export const CubeSelector = () => {
                             {fetching ? <CircularProgress /> : 'Add Set'}
                         </Button>
                         <Button
+                            style={{ marginLeft: 10 }}
                             color='primary'
                             variant='outlined'
                             disabled={!selectedSets.length || fetching}
