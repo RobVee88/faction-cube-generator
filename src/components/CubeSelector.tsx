@@ -58,6 +58,34 @@ export const CubeSelector = () => {
         <div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <div>
+                    <div style={{ marginTop: 10 }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Typography>
+                                Selected Set card pool size:
+                            </Typography>
+                            <Typography style={{ opacity: 1, marginLeft: 5 }}>
+                                {cardPoolSize}
+                            </Typography>
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Typography>
+                                Generated Cube card pool size:
+                            </Typography>
+                            <Typography style={{ opacity: 1, marginLeft: 5 }}>
+                                {cube.length}
+                            </Typography>
+                        </div>
+                    </div>
                     <div style={{ display: 'flex' }}>
                         <SetDropDown
                             setList={setList}
@@ -65,6 +93,8 @@ export const CubeSelector = () => {
                             selectedSet={selectedSet}
                         />
                         <Button
+                            color='primary'
+                            variant='outlined'
                             onClick={() => {
                                 if (selectedSet) {
                                     setFetching(true);
@@ -98,13 +128,9 @@ export const CubeSelector = () => {
                         >
                             {fetching ? <CircularProgress /> : 'Add Set'}
                         </Button>
-                    </div>
-                    <div style={{ display: 'flex' }}>
-                        <div>
-                            <Typography variant='h5'>{`Selected Set card pool size: ${cardPoolSize}`}</Typography>
-                            <Typography variant='h5'>{`Generated Cube card pool size: ${cube.length}`}</Typography>
-                        </div>
                         <Button
+                            color='primary'
+                            variant='outlined'
                             disabled={!selectedSets.length || fetching}
                             onClick={() =>
                                 setCube(
@@ -120,7 +146,8 @@ export const CubeSelector = () => {
                         </Button>
                     </div>
                 </div>
-
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <SelectedSetList
                     selectedSets={selectedSets}
                     setSelectedSets={setSelectedSets}
@@ -130,6 +157,8 @@ export const CubeSelector = () => {
             {cube.length ? (
                 <div>
                     <Button
+                        color='primary'
+                        variant='outlined'
                         disabled={!cube.length || fetching}
                         onClick={() => {
                             navigator.clipboard.writeText(
@@ -141,7 +170,7 @@ export const CubeSelector = () => {
                     </Button>
                     <TextareaAutosize
                         rowsMin={15}
-                        style={{ width: '100%', resize: 'none' }}
+                        style={{ width: '100%', resize: 'none', marginTop: 10 }}
                         placeholder='Generate a cube to display cards here'
                         value={convertCubeToCockatriceFormatting(cube)}
                     />

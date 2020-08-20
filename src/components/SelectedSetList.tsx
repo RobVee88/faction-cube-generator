@@ -1,6 +1,7 @@
 import React from 'react';
 import { List, ListItem, ListItemText, Button } from '@material-ui/core';
 import { SetDescription } from '@/util/types';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export interface ISelectedSetListProps {
     selectedSets: SetDescription[];
@@ -17,6 +18,7 @@ export const SelectedSetList = (props: ISelectedSetListProps) => {
                     <ListItem key={`${set.code}${set.name}`}>
                         <ListItemText primary={`(${set.code}) ${set.name}`} />
                         <Button
+                            style={{ maxWidth: '30px' }}
                             onClick={() => {
                                 setSelectedSets(
                                     selectedSets.filter(
@@ -26,7 +28,7 @@ export const SelectedSetList = (props: ISelectedSetListProps) => {
                                 setSetList((previous) => [...previous, set]);
                             }}
                         >
-                            Remove Set
+                            <DeleteIcon color='secondary' />
                         </Button>
                     </ListItem>
                 );
