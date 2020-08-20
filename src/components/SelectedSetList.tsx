@@ -16,8 +16,12 @@ export const SelectedSetList = (props: ISelectedSetListProps) => {
             <Grid container spacing={2} justify='center'>
                 {selectedSets?.map((set) => {
                     return (
-                        <Grid item style={{ width: 500 }}>
-                            <ListItem key={`${set.code}${set.name}`}>
+                        <Grid
+                            item
+                            style={{ width: 500 }}
+                            key={`${set.code}${set.name}`}
+                        >
+                            <ListItem>
                                 <ListItemText
                                     primary={`(${set.code}) ${set.name}`}
                                 />
@@ -42,7 +46,7 @@ export const SelectedSetList = (props: ISelectedSetListProps) => {
                     );
                 })}
                 {selectedSets.length % 2 > 0 ? (
-                    <Grid item style={{ width: 500 }}></Grid>
+                    <Grid key={'extra'} item style={{ width: 500 }}></Grid>
                 ) : (
                     <></>
                 )}
