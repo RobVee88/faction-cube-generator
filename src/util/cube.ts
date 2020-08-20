@@ -11,6 +11,9 @@ export const generateCube = (
     let remainderBySet = cubeSize % selectedSets.length;
 
     const cardsPerSet = Math.floor(cubeSize / selectedSets.length);
+
+    const rarities: string[][] = [['rare', 'mythic'], ['uncommon'], ['common']];
+
     selectedSets.forEach((set) => {
         const uniqueSet: Card[] = set.cards.reduce(
             (cards, card) =>
@@ -26,56 +29,25 @@ export const generateCube = (
             remainderBySet--;
         }
 
-        const totalRaresToBePicked = Math.floor(
-            (rarityDistribution[Rarity.rare] / 15) * finalCardsForThisSet
-        );
-        const totalUncommonsToBePicked = Math.floor(
-            (rarityDistribution[Rarity.uncommon] / 15) * finalCardsForThisSet
-        );
-        let totalCommonsToBePicked = Math.floor(
-            (rarityDistribution[Rarity.common] / 15) * finalCardsForThisSet
-        );
-
-        let remainderByRarity =
-            finalCardsForThisSet -
-            (totalRaresToBePicked +
-                totalUncommonsToBePicked +
-                totalCommonsToBePicked);
-        totalCommonsToBePicked = totalCommonsToBePicked + remainderByRarity;
-
-        cube = [
-            ...cube,
-            ...getRandomCards(
-                uniqueSet.filter((card) => {
-                    return (
-                        card.rarity === Rarity.mythic ||
-                        card.rarity === Rarity.rare
-                    );
-                }),
-                totalRaresToBePicked
-            ),
-        ];
-        cube = [
-            ...cube,
-            ...getRandomCards(
-                uniqueSet.filter((card) => {
-                    return card.rarity === Rarity.uncommon;
-                }),
-                totalUncommonsToBePicked
-            ),
-        ];
-        cube = [
-            ...cube,
-            ...getRandomCards(
-                uniqueSet.filter((card) => {
-                    return (
-                        card.rarity === Rarity.common &&
-                        !card.supertypes.find((type) => type === 'Basic')
-                    );
-                }),
-                totalCommonsToBePicked
-            ),
-        ];
+        rarities.forEach((rarity) => {
+            const numberOfRarityToBePicked = Math.floor(
+                (rarityDistribution[rarity[0]] / 15) * finalCardsForThisSet
+            );
+            let cardsStillNeeded = numberOfRarityToBePicked;
+            while (cardsStillNeeded > 0) {
+                const randomCards = getRandomCards(
+                    uniqueSet.filter((card) => {
+                        return (
+                            rarity.find((rarity) => card.rarity === rarity) &&
+                            !card.supertypes.find((type) => type === 'Basic')
+                        );
+                    }),
+                    cardsStillNeeded
+                );
+                cube = [...cube, ...randomCards];
+                cardsStillNeeded = cardsStillNeeded - randomCards.length;
+            }
+        });
     });
     return cube;
 };
