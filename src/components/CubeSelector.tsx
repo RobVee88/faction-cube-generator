@@ -11,6 +11,7 @@ import { SelectedSetList } from './SelectedSetList';
 import { SetDescription, RarityDistribution, Card } from '@/util/types';
 import { generateCube } from '@/util/cube';
 import { convertCubeToCockatriceFormatting } from '@/util/helpers';
+import { CubeSizeDropDown } from './CubeSizeDropDown';
 
 export const CubeSelector = () => {
     const [setList, setSetList] = React.useState<SetDescription[] | undefined>(
@@ -87,11 +88,17 @@ export const CubeSelector = () => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', marginTop: 10 }}>
-                        <SetDropDown
-                            setList={setList}
-                            setSelectedSet={setSelectedSet}
-                            selectedSet={selectedSet}
+                        <CubeSizeDropDown
+                            cubeSize={cubeSize}
+                            setCubeSize={setCubeSize}
                         />
+                        <div style={{ marginLeft: 10 }}>
+                            <SetDropDown
+                                setList={setList}
+                                setSelectedSet={setSelectedSet}
+                                selectedSet={selectedSet}
+                            />
+                        </div>
                         <Button
                             style={{ marginLeft: 10 }}
                             color='primary'
@@ -157,7 +164,7 @@ export const CubeSelector = () => {
                 />
             </div>
             {cube.length ? (
-                <div>
+                <div style={{ marginTop: 10 }}>
                     <Button
                         color='primary'
                         variant='outlined'
