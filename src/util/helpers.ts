@@ -50,12 +50,42 @@ export const getColorDistribution = (cards: Card[]) => {
 };
 
 export const filterCard = (card: Card, cubeFilters: Filter[]) => {
-    if (
-        cubeFilters.find((filter) => {
-            return Filter[filter] === Filter.noLand;
-        })
-    ) {
+    if (cubeFilters.find((filter) => Filter[filter] === Filter.noLand)) {
         if (card.types.find((type) => type === 'Land')) {
+            return false;
+        }
+    }
+    if (cubeFilters.find((filter) => Filter[filter] === Filter.noArtifacts)) {
+        if (card.types.find((type) => type === 'Artifact')) {
+            return false;
+        }
+    }
+    if (cubeFilters.find((filter) => Filter[filter] === Filter.noCreatures)) {
+        if (card.types.find((type) => type === 'Creature')) {
+            return false;
+        }
+    }
+    if (
+        cubeFilters.find((filter) => Filter[filter] === Filter.noEnchantments)
+    ) {
+        if (card.types.find((type) => type === 'Enchantment')) {
+            return false;
+        }
+    }
+    if (cubeFilters.find((filter) => Filter[filter] === Filter.noInstants)) {
+        if (card.types.find((type) => type === 'Instant')) {
+            return false;
+        }
+    }
+    if (cubeFilters.find((filter) => Filter[filter] === Filter.noSorceries)) {
+        if (card.types.find((type) => type === 'Sorcery')) {
+            return false;
+        }
+    }
+    if (
+        cubeFilters.find((filter) => Filter[filter] === Filter.noPlanesWalkers)
+    ) {
+        if (card.types.find((type) => type === 'Planeswalker')) {
             return false;
         }
     }

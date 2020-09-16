@@ -7,6 +7,12 @@ export enum Rarity {
 
 export enum Filter {
     noLand = 'Exclude lands',
+    noCreatures = 'Exclude creatures',
+    noInstants = 'Exclude instants',
+    noSorceries = 'Exclude sorceries',
+    noArtifacts = 'Exclude artifacts',
+    noEnchantments = 'Exclude enchantments',
+    noPlanesWalkers = 'Exclude planeswalkers (recommended)',
 }
 
 export interface RarityDistribution {
