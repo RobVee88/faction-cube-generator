@@ -4,6 +4,7 @@ import {
     TextareaAutosize,
     CircularProgress,
     Typography,
+    TextField,
 } from '@material-ui/core';
 import React from 'react';
 import { SetDropDown } from './SetDropDown';
@@ -88,10 +89,16 @@ export const CubeSelector = () => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', marginTop: 10 }}>
-                        <CubeSizeDropDown
-                            cubeSize={cubeSize}
-                            setCubeSize={setCubeSize}
+                        <TextField
+                            type='number'
+                            label='Cube Size'
+                            variant='outlined'
+                            value={cubeSize > 0 ? cubeSize : undefined}
+                            onChange={(e) =>
+                                setCubeSize(Number(e.target.value))
+                            }
                         />
+
                         <div style={{ marginLeft: 10 }}>
                             <SetDropDown
                                 setList={setList}
@@ -140,7 +147,9 @@ export const CubeSelector = () => {
                             style={{ marginLeft: 10 }}
                             color='primary'
                             variant='outlined'
-                            disabled={!selectedSets.length || fetching}
+                            disabled={
+                                !selectedSets.length || fetching || !cubeSize
+                            }
                             onClick={() =>
                                 setCube(
                                     generateCube(
