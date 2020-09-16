@@ -24,6 +24,7 @@ export const CubeFilters = (props: ICubeFilterProps) => {
                                     ).length > 0
                                 }
                                 onChange={(e) => {
+                                    e.persist();
                                     setCubeFilters((prev) =>
                                         !e.target.checked
                                             ? [
