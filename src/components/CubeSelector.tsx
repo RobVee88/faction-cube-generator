@@ -89,26 +89,20 @@ export const CubeSelector = () => {
                             </Typography>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', marginTop: 10 }}>
-                        <TextField
-                            type='number'
-                            label='Cube Size'
-                            variant='outlined'
-                            value={cubeSize > 0 ? cubeSize : undefined}
-                            onChange={(e) =>
-                                setCubeSize(Number(e.target.value))
-                            }
+                    <div
+                        style={{
+                            display: 'grid',
+                            marginTop: 10,
+                            gridTemplateColumns: '3fr 1fr',
+                            gridColumnGap: 10,
+                        }}
+                    >
+                        <SetDropDown
+                            setList={setList}
+                            setSelectedSet={setSelectedSet}
+                            selectedSet={selectedSet}
                         />
-
-                        <div style={{ marginLeft: 10 }}>
-                            <SetDropDown
-                                setList={setList}
-                                setSelectedSet={setSelectedSet}
-                                selectedSet={selectedSet}
-                            />
-                        </div>
                         <Button
-                            style={{ marginLeft: 10 }}
                             color='primary'
                             variant='outlined'
                             onClick={() => {
@@ -144,8 +138,25 @@ export const CubeSelector = () => {
                         >
                             {fetching ? <CircularProgress /> : 'Add Set'}
                         </Button>
+                    </div>
+                    <div
+                        style={{
+                            display: 'grid',
+                            marginTop: 10,
+                            gridTemplateColumns: '3fr 1fr',
+                            gridColumnGap: 10,
+                        }}
+                    >
+                        <TextField
+                            type='number'
+                            label='Cube Size'
+                            variant='outlined'
+                            value={cubeSize > 0 ? cubeSize : undefined}
+                            onChange={(e) =>
+                                setCubeSize(Number(e.target.value))
+                            }
+                        />
                         <Button
-                            style={{ marginLeft: 10 }}
                             color='primary'
                             variant='outlined'
                             disabled={

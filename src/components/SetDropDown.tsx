@@ -23,7 +23,6 @@ export const SetDropDown = (props: ISetDropDownProps) => {
                     }}
                     options={[{ name: '', code: '' }, ...setList]}
                     getOptionLabel={(set: SetDescription) => set.name}
-                    style={{ width: 300 }}
                     renderInput={(params) => (
                         <TextField
                             {...params}
