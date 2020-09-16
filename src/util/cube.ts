@@ -54,6 +54,7 @@ export const generateCube = (
                 );
                 cube = [...cube, ...randomCards];
                 cardsStillNeeded = cardsStillNeeded - randomCards.length;
+                if (randomCards.length === 0) break;
             }
         });
     });
