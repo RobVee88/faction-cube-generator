@@ -12,7 +12,6 @@ import { SelectedSetList } from './SelectedSetList';
 import { SetDescription, RarityDistribution, Card } from '@/util/types';
 import { generateCube } from '@/util/cube';
 import { convertCubeToCockatriceFormatting } from '@/util/helpers';
-import { CubeSizeDropDown } from './CubeSizeDropDown';
 
 export const CubeSelector = () => {
     const [setList, setSetList] = React.useState<SetDescription[] | undefined>(
