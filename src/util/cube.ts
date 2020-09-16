@@ -11,9 +11,11 @@ export const generateCube = (
     selectedSets: SetDescription[],
     cubeSize: number,
     rarityDistribution: RarityDistribution,
-    cubeFilters: Filter[]
+    cubeFilters: Filter[],
+    cardsToInclude: Card[],
+    cardsToBan: Card[]
 ) => {
-    let cube: Card[] = [];
+    let cube: Card[] = [...cardsToInclude];
 
     let remainderBySet = cubeSize % selectedSets.length;
 
@@ -47,6 +49,13 @@ export const generateCube = (
                         return (
                             rarity.find((rarity) => card.rarity === rarity) &&
                             !card.supertypes.find((type) => type === 'Basic') &&
+                            !cardsToBan.find(
+                                (cardToBan) => cardToBan.uuid === card.uuid
+                            ) &&
+                            !cardsToInclude.find(
+                                (cardToInclude) =>
+                                    cardToInclude.uuid === card.uuid
+                            ) &&
                             filterCard(card, cubeFilters)
                         );
                     }),

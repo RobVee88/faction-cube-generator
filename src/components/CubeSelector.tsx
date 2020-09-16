@@ -31,6 +31,8 @@ export const CubeSelector = () => {
     const [cube, setCube] = React.useState<Card[]>([]);
     const [fetching, setFetching] = React.useState<boolean>(false);
     const [cubeFilters, setCubeFilters] = React.useState<Filter[]>([]);
+    const [cardsToInclude, setCardsToInclude] = React.useState<Card[]>([]);
+    const [cardsToBan, setCardsToBan] = React.useState<Card[]>([]);
 
     const cardPoolSize = selectedSets
         ?.map((set) => set.cards?.length || 0)
@@ -168,7 +170,9 @@ export const CubeSelector = () => {
                                         selectedSets,
                                         cubeSize,
                                         rarityDistribution,
-                                        cubeFilters
+                                        cubeFilters,
+                                        cardsToInclude,
+                                        cardsToBan
                                     )
                                 )
                             }
