@@ -1,10 +1,17 @@
-import { getColorDistribution, getRandomCards } from './helpers';
-import { Card, RarityDistribution, SetDescription, Rarity } from './types';
+import { getColorDistribution, getRandomCards, filterCard } from './helpers';
+import {
+    Card,
+    RarityDistribution,
+    SetDescription,
+    Rarity,
+    Filter,
+} from './types';
 
 export const generateCube = (
     selectedSets: SetDescription[],
     cubeSize: number,
-    rarityDistribution: RarityDistribution
+    rarityDistribution: RarityDistribution,
+    cubeFilters: Filter[]
 ) => {
     let cube: Card[] = [];
 
@@ -39,7 +46,8 @@ export const generateCube = (
                     uniqueSet.filter((card) => {
                         return (
                             rarity.find((rarity) => card.rarity === rarity) &&
-                            !card.supertypes.find((type) => type === 'Basic')
+                            !card.supertypes.find((type) => type === 'Basic') &&
+                            filterCard(card, cubeFilters)
                         );
                     }),
                     cardsStillNeeded

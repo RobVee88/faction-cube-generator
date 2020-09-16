@@ -9,9 +9,10 @@ import {
 import React from 'react';
 import { SetDropDown } from './SetDropDown';
 import { SelectedSetList } from './SelectedSetList';
-import { SetDescription, RarityDistribution, Card } from '@/util/types';
+import { SetDescription, RarityDistribution, Card, Filter } from '@/util/types';
 import { generateCube } from '@/util/cube';
 import { convertCubeToCockatriceFormatting } from '@/util/helpers';
+import { CubeFilters } from './CubeFilters';
 
 export const CubeSelector = () => {
     const [setList, setSetList] = React.useState<SetDescription[] | undefined>(
@@ -29,6 +30,7 @@ export const CubeSelector = () => {
     const [cubeSize, setCubeSize] = React.useState<number>(360);
     const [cube, setCube] = React.useState<Card[]>([]);
     const [fetching, setFetching] = React.useState<boolean>(false);
+    const [cubeFilters, setCubeFilters] = React.useState<Filter[]>([]);
 
     const cardPoolSize = selectedSets
         ?.map((set) => set.cards?.length || 0)
@@ -154,7 +156,8 @@ export const CubeSelector = () => {
                                     generateCube(
                                         selectedSets,
                                         cubeSize,
-                                        rarityDistribution
+                                        rarityDistribution,
+                                        cubeFilters
                                     )
                                 )
                             }
@@ -163,6 +166,12 @@ export const CubeSelector = () => {
                         </Button>
                     </div>
                 </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <CubeFilters
+                    cubeFilters={cubeFilters}
+                    setCubeFilters={setCubeFilters}
+                />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <SelectedSetList

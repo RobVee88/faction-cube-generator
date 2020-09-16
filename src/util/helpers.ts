@@ -1,4 +1,4 @@
-import { Card } from './types';
+import { Card, Filter } from './types';
 
 export const convertCubeToCockatriceFormatting = (cube: Card[]) => {
     let cockatriceFormattedString = '';
@@ -47,4 +47,18 @@ export const getColorDistribution = (cards: Card[]) => {
         toRet.push({ color: key, amount: value });
     }
     return toRet.sort((a, b) => a.amount - b.amount);
+};
+
+export const filterCard = (card: Card, cubeFilters: Filter[]) => {
+    if (
+        cubeFilters.find((filter) => {
+            return Filter[filter] === Filter.noLand;
+        })
+    ) {
+        if (card.types.find((type) => type === 'Land')) {
+            return false;
+        }
+    }
+
+    return true;
 };

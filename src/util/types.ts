@@ -5,6 +5,10 @@ export enum Rarity {
     common = 'common',
 }
 
+export enum Filter {
+    noLand = 'Exclude lands',
+}
+
 export interface RarityDistribution {
     rare: number;
     uncommon: number;
