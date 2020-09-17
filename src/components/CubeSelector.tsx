@@ -1,205 +1,72 @@
-import { fetchApiData } from '@/util/api';
-import { generateCube } from '@/util/cube';
-import { convertCubeToCockatriceFormatting } from '@/util/helpers';
-import { SetDescription } from '@/util/types';
-import {
-    Button,
-    CircularProgress,
-    TextareaAutosize,
-    TextField,
-    Typography
-} from '@material-ui/core';
+import { CubeStep } from '@/util/types';
+import { Button, Step, StepLabel, Stepper } from '@material-ui/core';
 import React from 'react';
 import { useCubeContext } from './CubeContext';
-import { CubeFilters } from './CubeFilters';
-import { SelectedSetList } from './SelectedSetList';
-import { SetDropDown } from './SetDropDown';
+import { BanCardsStep } from './steps/ban-cards-step';
+import { GenerateCubeStep } from './steps/generate-cube-step';
+import { IncludeCardsStep } from './steps/include-cards-step';
+import { SelectSetsStep } from './steps/select-sets-step';
+import { SetFiltersStep } from './steps/set-filters-step';
+
+const Steps: CubeStep[] = [
+    { id: 0, label: 'Select Sets', component: <SelectSetsStep /> },
+    { id: 1, label: 'Set Filters', component: <SetFiltersStep /> },
+    { id: 2, label: 'Include Cards', component: <IncludeCardsStep /> },
+    { id: 3, label: 'Ban Cards', component: <BanCardsStep /> },
+    { id: 4, label: 'Finalise Cube', component: <GenerateCubeStep /> },
+];
 
 export const CubeSelector = () => {
-    const {
-        selectedSets,
-        setList,
-        setSetList,
-        cube,
-        setSelectedSets,
-        cubeSize,
-        setCubeSize,
-        setCube,
-        selectedSet,
-        setSelectedSet,
-        rarityDistribution,
-    } = useCubeContext();
+    const [activeStep, setActiveStep] = React.useState(0);
 
-    const [fetching, setFetching] = React.useState<boolean>(false);
+    const { selectedSets } = useCubeContext();
 
-    const cardPoolSize = selectedSets
-        ?.map((set) => set.cards?.length || 0)
-        .reduce((a, b) => a + b, 0);
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
 
-    if (!setList) {
-        fetchApiData((data) => {
-            return Object.keys(data?.data)
-                ?.filter(
-                    (set) =>
-                        data.data[set].type === 'core' ||
-                        data.data[set].type === 'expansion' ||
-                        data.data[set].type === 'masters' ||
-                        data.data[set].type === 'funny'
-                )
-                ?.map((set) => {
-                    return {
-                        code: data.data[set].code,
-                        name: data.data[set].name,
-                    };
-                });
-        }, 'SetList').then((data: SetDescription[]) => {
-            setSetList(data);
-        });
-    }
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
 
     return (
-        <div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <div>
-                    <div style={{ marginTop: 10 }}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Typography>
-                                Selected Set card pool size:
-                            </Typography>
-                            <Typography style={{ opacity: 1, marginLeft: 5 }}>
-                                {cardPoolSize}
-                            </Typography>
-                        </div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Typography>
-                                Generated Cube card pool size:
-                            </Typography>
-                            <Typography style={{ opacity: 1, marginLeft: 5 }}>
-                                {cube.length}
-                            </Typography>
-                        </div>
-                    </div>
-                    <div
-                        style={{
-                            display: 'grid',
-                            marginTop: 10,
-                            gridTemplateColumns: '3fr 1fr',
-                            gridColumnGap: 10,
-                        }}
-                    >
-                        <SetDropDown
-                            setSelectedSet={setSelectedSet}
-                            selectedSet={selectedSet}
-                        />
-                        <Button
-                            color='primary'
-                            variant='outlined'
-                            onClick={() => {
-                                if (selectedSet) {
-                                    setFetching(true);
-                                    return fetchApiData((data) => {
-                                        return {
-                                            code: data.data.code,
-                                            name: data.data.name,
-                                            cards: data.data.cards,
-                                        };
-                                        //ugly solution :(
-                                    }, `${selectedSet.code === 'CON' ? selectedSet.code + '_' : selectedSet.code}`).then(
-                                        (setData: SetDescription) => {
-                                            setSelectedSets((previous) => [
-                                                ...previous,
-                                                setData,
-                                            ]);
-                                            setSetList(
-                                                setList.filter(
-                                                    (set) =>
-                                                        set.code !==
-                                                        setData.code
-                                                )
-                                            );
-                                            setSelectedSet(undefined);
-                                            setFetching(false);
-                                        }
-                                    );
-                                }
-                            }}
-                            disabled={fetching}
-                        >
-                            {fetching ? <CircularProgress /> : 'Add Set'}
-                        </Button>
-                    </div>
-                    <div
-                        style={{
-                            display: 'grid',
-                            marginTop: 10,
-                            gridTemplateColumns: '3fr 1fr',
-                            gridColumnGap: 10,
-                        }}
-                    >
-                        <TextField
-                            type='number'
-                            label='Cube Size'
-                            variant='outlined'
-                            value={cubeSize > 0 ? cubeSize : undefined}
-                            onChange={(e) =>
-                                setCubeSize(Number(e.target.value))
-                            }
-                        />
-                        <Button
-                            color='primary'
-                            variant='outlined'
-                            disabled={
-                                !selectedSets.length || fetching || !cubeSize
-                            }
-                            onClick={() =>
-                                setCube(generateCube(rarityDistribution))
-                            }
-                        >
-                            {fetching ? <CircularProgress /> : 'Generate Cube'}
-                        </Button>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <CubeFilters />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SelectedSetList />
-            </div>
-            {cube.length ? (
-                <div style={{ marginTop: 10 }}>
-                    <Button
-                        color='primary'
-                        variant='outlined'
-                        disabled={!cube.length || fetching}
-                        onClick={() => {
-                            navigator.clipboard.writeText(
-                                convertCubeToCockatriceFormatting(cube)
-                            );
-                        }}
-                    >
-                        Copy Cube to Clipboard
+        <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+            <div
+                style={{
+                    position: 'sticky',
+                    top: '0px',
+                    backgroundColor: 'white',
+                    zIndex: 10,
+                    opacity: 0.9,
+                }}
+            >
+                <Stepper activeStep={activeStep}>
+                    {Steps.map((step) => {
+                        return (
+                            <Step key={step.id}>
+                                <StepLabel>{step.label}</StepLabel>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+                <div style={{ marginBottom: 20 }}>
+                    <Button disabled={activeStep === 0} onClick={handleBack}>
+                        Back
                     </Button>
-                    <TextareaAutosize
-                        rowsMin={15}
-                        style={{ width: '100%', resize: 'none', marginTop: 10 }}
-                        placeholder='Generate a cube to display cards here'
-                        value={convertCubeToCockatriceFormatting(cube)}
-                    />
+
+                    <Button
+                        style={{ marginLeft: 10 }}
+                        variant='contained'
+                        color='primary'
+                        onClick={handleNext}
+                        disabled={activeStep === 4 || !selectedSets.length}
+                    >
+                        Next
+                    </Button>
                 </div>
-            ) : (
-                <></>
-            )}
+            </div>
+
+            {Steps.find((step) => step.id === activeStep)?.component}
         </div>
     );
 };

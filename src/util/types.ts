@@ -15,6 +15,12 @@ export enum Filter {
     noPlanesWalkers = 'Exclude planeswalkers (recommended)',
 }
 
+export interface CubeStep {
+    id: number;
+    label: string;
+    component: React.ReactNode;
+}
+
 export interface RarityDistribution {
     rare: number;
     uncommon: number;

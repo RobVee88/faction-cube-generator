@@ -35,11 +35,6 @@ export const SelectedSetList = () => {
                         </Grid>
                     );
                 })}
-                {selectedSets.length % 2 > 0 ? (
-                    <Grid key={'extra'} item></Grid>
-                ) : (
-                    <></>
-                )}
             </Grid>
         </div>
     );
