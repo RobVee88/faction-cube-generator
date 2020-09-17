@@ -45,6 +45,9 @@ export const SelectSetsStep = () => {
 
     return (
         <div>
+            <Typography style={{ fontSize: '1.5rem', marginBottom: 10 }}>
+                Select Sets
+            </Typography>
             <div
                 style={{
                     display: 'flex',

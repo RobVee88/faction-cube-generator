@@ -26,6 +26,9 @@ export const GenerateCubeStep = () => {
 
     return (
         <div>
+            <Typography style={{ fontSize: '1.5rem', marginBottom: 10 }}>
+                Finalise Cube
+            </Typography>
             <div
                 style={{
                     display: 'grid',

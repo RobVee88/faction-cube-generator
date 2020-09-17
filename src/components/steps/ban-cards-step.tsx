@@ -5,6 +5,7 @@ import {
     ListItem,
     ListItemText,
     TextField,
+    Typography,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
@@ -40,6 +41,9 @@ export const BanCardsStep = () => {
 
     return (
         <div>
+            <Typography style={{ fontSize: '1.5rem', marginBottom: 10 }}>
+                Ban Cards
+            </Typography>
             <Autocomplete
                 id='ban-cards-combo'
                 value={selectedCard || options[0]}
