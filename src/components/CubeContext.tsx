@@ -17,6 +17,10 @@ export interface ICubeContext {
     setCardsToBan: (cards: Card[]) => void;
     cube: Card[];
     setCube: (cards: Card[]) => void;
+    selectedSet: SetDescription | undefined;
+    setSelectedSet: (selectedSet: SetDescription) => void;
+    rarityDistribution: RarityDistribution;
+    setRarityDistribution: (rarityDistribution: RarityDistribution) => void;
 }
 
 const CubeContext = createContext<ICubeContext | undefined>(undefined);
@@ -42,6 +46,12 @@ export const CubeContextProvider = ({ children }) => {
     const [cubeFilters, setCubeFilters] = React.useState<Filter[]>([]);
     const [cardsToInclude, setCardsToInclude] = React.useState<Card[]>([]);
     const [cardsToBan, setCardsToBan] = React.useState<Card[]>([]);
+    const [selectedSet, setSelectedSet] = React.useState<
+        SetDescription | undefined
+    >(undefined);
+    const [rarityDistribution, setRarityDistribution] = React.useState<
+        RarityDistribution
+    >({ rare: 1, uncommon: 4, common: 10 });
 
     return (
         <CubeContext.Provider
@@ -60,6 +70,10 @@ export const CubeContextProvider = ({ children }) => {
                 setCardsToInclude,
                 cardsToBan,
                 setCardsToBan,
+                selectedSet,
+                setSelectedSet,
+                rarityDistribution,
+                setRarityDistribution,
             }}
         >
             {children}

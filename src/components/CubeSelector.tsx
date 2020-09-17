@@ -1,13 +1,13 @@
 import { fetchApiData } from '@/util/api';
 import { generateCube } from '@/util/cube';
 import { convertCubeToCockatriceFormatting } from '@/util/helpers';
-import { RarityDistribution, SetDescription } from '@/util/types';
+import { SetDescription } from '@/util/types';
 import {
     Button,
     CircularProgress,
     TextareaAutosize,
     TextField,
-    Typography,
+    Typography
 } from '@material-ui/core';
 import React from 'react';
 import { useCubeContext } from './CubeContext';
@@ -16,14 +16,6 @@ import { SelectedSetList } from './SelectedSetList';
 import { SetDropDown } from './SetDropDown';
 
 export const CubeSelector = () => {
-    const [selectedSet, setSelectedSet] = React.useState<
-        SetDescription | undefined
-    >(undefined);
-    const [rarityDistribution, setRarityDistribution] = React.useState<
-        RarityDistribution
-    >({ rare: 1, uncommon: 4, common: 10 });
-    const [fetching, setFetching] = React.useState<boolean>(false);
-
     const {
         selectedSets,
         setList,
@@ -33,7 +25,12 @@ export const CubeSelector = () => {
         cubeSize,
         setCubeSize,
         setCube,
+        selectedSet,
+        setSelectedSet,
+        rarityDistribution,
     } = useCubeContext();
+
+    const [fetching, setFetching] = React.useState<boolean>(false);
 
     const cardPoolSize = selectedSets
         ?.map((set) => set.cards?.length || 0)
@@ -165,11 +162,7 @@ export const CubeSelector = () => {
                                 !selectedSets.length || fetching || !cubeSize
                             }
                             onClick={() =>
-                                setCube(
-                                    generateCube(
-                                        rarityDistribution
-                                    )
-                                )
+                                setCube(generateCube(rarityDistribution))
                             }
                         >
                             {fetching ? <CircularProgress /> : 'Generate Cube'}
@@ -178,10 +171,10 @@ export const CubeSelector = () => {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <CubeFilters/>
+                <CubeFilters />
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SelectedSetList/>
+                <SelectedSetList />
             </div>
             {cube.length ? (
                 <div style={{ marginTop: 10 }}>
