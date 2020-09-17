@@ -2,6 +2,7 @@ import { CubeSelector } from '@/components/CubeSelector';
 import { Box, Typography, ThemeProvider } from '@material-ui/core';
 import React from 'react';
 import { cubeTheme } from '@/styling/theme';
+import { CubeContextProvider } from '@/components/CubeContext';
 
 const Home = () => (
     <Box style={{ textAlign: 'center' }}>
@@ -10,7 +11,9 @@ const Home = () => (
             Props to Count_Borkula for the idea and original python code!
         </Typography>
         <ThemeProvider theme={cubeTheme}>
-            <CubeSelector />
+            <CubeContextProvider>
+                <CubeSelector />
+            </CubeContextProvider>
         </ThemeProvider>
     </Box>
 );

@@ -3,15 +3,16 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { CircularProgress } from '@material-ui/core';
 import { SetDescription } from '@/util/types';
+import { useCubeContext } from './CubeContext';
 
 export interface ISetDropDownProps {
-    setList: SetDescription[];
     setSelectedSet: (set: SetDescription) => void;
     selectedSet: SetDescription;
 }
 
 export const SetDropDown = (props: ISetDropDownProps) => {
-    const { setList, setSelectedSet, selectedSet } = props;
+    const { setList } = useCubeContext();
+    const { setSelectedSet, selectedSet } = props;
     return (
         <div>
             {setList ? (

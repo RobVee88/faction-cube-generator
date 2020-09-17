@@ -1,38 +1,39 @@
 import { fetchApiData } from '@/util/api';
-import {
-    Button,
-    TextareaAutosize,
-    CircularProgress,
-    Typography,
-    TextField,
-} from '@material-ui/core';
-import React from 'react';
-import { SetDropDown } from './SetDropDown';
-import { SelectedSetList } from './SelectedSetList';
-import { SetDescription, RarityDistribution, Card, Filter } from '@/util/types';
 import { generateCube } from '@/util/cube';
 import { convertCubeToCockatriceFormatting } from '@/util/helpers';
+import { RarityDistribution, SetDescription } from '@/util/types';
+import {
+    Button,
+    CircularProgress,
+    TextareaAutosize,
+    TextField,
+    Typography,
+} from '@material-ui/core';
+import React from 'react';
+import { useCubeContext } from './CubeContext';
 import { CubeFilters } from './CubeFilters';
+import { SelectedSetList } from './SelectedSetList';
+import { SetDropDown } from './SetDropDown';
 
 export const CubeSelector = () => {
-    const [setList, setSetList] = React.useState<SetDescription[] | undefined>(
-        undefined
-    );
     const [selectedSet, setSelectedSet] = React.useState<
         SetDescription | undefined
     >(undefined);
-    const [selectedSets, setSelectedSets] = React.useState<SetDescription[]>(
-        []
-    );
     const [rarityDistribution, setRarityDistribution] = React.useState<
         RarityDistribution
     >({ rare: 1, uncommon: 4, common: 10 });
-    const [cubeSize, setCubeSize] = React.useState<number>(360);
-    const [cube, setCube] = React.useState<Card[]>([]);
     const [fetching, setFetching] = React.useState<boolean>(false);
-    const [cubeFilters, setCubeFilters] = React.useState<Filter[]>([]);
-    const [cardsToInclude, setCardsToInclude] = React.useState<Card[]>([]);
-    const [cardsToBan, setCardsToBan] = React.useState<Card[]>([]);
+
+    const {
+        selectedSets,
+        setList,
+        setSetList,
+        cube,
+        setSelectedSets,
+        cubeSize,
+        setCubeSize,
+        setCube,
+    } = useCubeContext();
 
     const cardPoolSize = selectedSets
         ?.map((set) => set.cards?.length || 0)
@@ -100,7 +101,6 @@ export const CubeSelector = () => {
                         }}
                     >
                         <SetDropDown
-                            setList={setList}
                             setSelectedSet={setSelectedSet}
                             selectedSet={selectedSet}
                         />
@@ -167,12 +167,7 @@ export const CubeSelector = () => {
                             onClick={() =>
                                 setCube(
                                     generateCube(
-                                        selectedSets,
-                                        cubeSize,
-                                        rarityDistribution,
-                                        cubeFilters,
-                                        cardsToInclude,
-                                        cardsToBan
+                                        rarityDistribution
                                     )
                                 )
                             }
@@ -183,17 +178,10 @@ export const CubeSelector = () => {
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <CubeFilters
-                    cubeFilters={cubeFilters}
-                    setCubeFilters={setCubeFilters}
-                />
+                <CubeFilters/>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <SelectedSetList
-                    selectedSets={selectedSets}
-                    setSelectedSets={setSelectedSets}
-                    setSetList={setSetList}
-                />
+                <SelectedSetList/>
             </div>
             {cube.length ? (
                 <div style={{ marginTop: 10 }}>

@@ -1,16 +1,10 @@
-import React from 'react';
 import { Button, Grid, ListItem, ListItemText } from '@material-ui/core';
-import { SetDescription } from '@/util/types';
 import DeleteIcon from '@material-ui/icons/Delete';
+import React from 'react';
+import { useCubeContext } from './CubeContext';
 
-export interface ISelectedSetListProps {
-    selectedSets: SetDescription[];
-    setSelectedSets: (sets: SetDescription[]) => void;
-    setSetList: (sets: any) => void;
-}
-
-export const SelectedSetList = (props: ISelectedSetListProps) => {
-    const { selectedSets, setSelectedSets, setSetList } = props;
+export const SelectedSetList = () => {
+    const { selectedSets, setSelectedSets, setSetList } = useCubeContext();
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <Grid container spacing={2} justify='center'>

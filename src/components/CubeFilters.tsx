@@ -1,14 +1,9 @@
 import React from 'react';
 import { Grid, Checkbox, FormControlLabel } from '@material-ui/core';
 import { Filter } from '@/util/types';
-
-export interface ICubeFilterProps {
-    cubeFilters: Filter[];
-    setCubeFilters: (filters) => void;
-}
-
-export const CubeFilters = (props: ICubeFilterProps) => {
-    const { cubeFilters, setCubeFilters } = props;
+import { useCubeContext } from './CubeContext';
+export const CubeFilters = () => {
+    const { cubeFilters, setCubeFilters } = useCubeContext();
 
     return (
         <Grid>

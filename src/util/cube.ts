@@ -1,3 +1,4 @@
+import { useCubeContext } from '@/components/CubeContext';
 import { getColorDistribution, getRandomCards, filterCard } from './helpers';
 import {
     Card,
@@ -7,14 +8,15 @@ import {
     Filter,
 } from './types';
 
-export const generateCube = (
-    selectedSets: SetDescription[],
-    cubeSize: number,
-    rarityDistribution: RarityDistribution,
-    cubeFilters: Filter[],
-    cardsToInclude: Card[],
-    cardsToBan: Card[]
-) => {
+export const generateCube = (rarityDistribution: RarityDistribution) => {
+    const {
+        selectedSets,
+        cubeSize,
+        cubeFilters,
+        cardsToInclude,
+        cardsToBan,
+    } = useCubeContext();
+
     let cube: Card[] = [...cardsToInclude];
 
     let remainderBySet = cubeSize % selectedSets.length;
