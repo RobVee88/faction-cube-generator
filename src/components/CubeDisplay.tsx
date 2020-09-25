@@ -135,7 +135,7 @@ export const CubeDisplay = () => {
     }[] = getCubeColors(cube);
 
     return (
-        <Grid container justify='center' xl={7}>
+        <Grid container justify='center'>
             {colors.map((color, i) => {
                 const cards = cube.filter((card) => {
                     return color.colors.includes(card.colorIdentity.join(''));
