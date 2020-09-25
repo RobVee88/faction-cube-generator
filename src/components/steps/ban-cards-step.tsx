@@ -11,6 +11,7 @@ import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
 import { useCubeContext } from '../CubeContext';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { CardDisplay } from '../CardDisplay';
 
 export const BanCardsStep = () => {
     const {
@@ -78,7 +79,7 @@ export const BanCardsStep = () => {
                 return (
                     <Grid item key={`${card.name}${index}`}>
                         <ListItem>
-                            <ListItemText primary={card.name} />
+                            <CardDisplay card={card} />
                             <Button
                                 style={{ maxWidth: '20px' }}
                                 onClick={() => {

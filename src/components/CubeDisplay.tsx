@@ -1,8 +1,8 @@
-import { getScryfallImage } from '@/util/api';
 import { getCubeColors } from '@/util/helpers';
 import { Card, CardType } from '@/util/types';
-import { Grid, Tooltip, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
+import { CardDisplay } from './CardDisplay';
 import { useCubeContext } from './CubeContext';
 
 interface ICubeSectionProps {
@@ -76,7 +76,8 @@ const CubeSection = (props: ICubeSectionProps) => {
                                     return (
                                         <CardDisplay
                                             key={`${filteredCard}${color}${i}${cardType}`}
-                                            filteredCard={filteredCard}
+                                            card={filteredCard}
+                                            fontSize={10}
                                         />
                                     );
                                 })}
@@ -86,40 +87,6 @@ const CubeSection = (props: ICubeSectionProps) => {
                 );
             })}
         </div>
-    );
-};
-
-interface ICardDisplayProps {
-    filteredCard: Card;
-}
-
-export const CardDisplay = (props: ICardDisplayProps) => {
-    const { filteredCard } = props;
-
-    return (
-        <Tooltip
-            title={
-                <div style={{ width: 250 }}>
-                    <img
-                        alt=''
-                        width='100%'
-                        src={getScryfallImage(
-                            filteredCard.printings[0],
-                            Number(filteredCard.number)
-                        )}
-                    />
-                </div>
-            }
-        >
-            <Typography
-                style={{
-                    fontSize: '10px',
-                    padding: '0px 5px',
-                }}
-            >
-                {filteredCard.name}
-            </Typography>
-        </Tooltip>
     );
 };
 
