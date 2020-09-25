@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { useCubeContext } from '../CubeContext';
+import { CubeDisplay } from '../CubeDisplay';
 
 export const GenerateCubeStep = () => {
     const {
@@ -91,7 +92,7 @@ export const GenerateCubeStep = () => {
                         >
                             Copy Cube to Clipboard
                         </Button>
-                        <TextareaAutosize
+                        {/* <TextareaAutosize
                             rowsMin={15}
                             style={{
                                 width: '100%',
@@ -100,7 +101,8 @@ export const GenerateCubeStep = () => {
                             }}
                             placeholder='Generate a cube to display cards here'
                             value={convertCubeToCockatriceFormatting(cube)}
-                        />
+                        /> */}
+                        <CubeDisplay />
                     </div>
                 ) : (
                     <></>

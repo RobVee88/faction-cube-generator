@@ -15,6 +15,16 @@ export enum Filter {
     noPlanesWalkers = 'Exclude planeswalkers (recommended)',
 }
 
+export enum CardType {
+    Creature = 'Creatures',
+    Sorcery = 'Sorceries',
+    Instant = 'Instants',
+    Enchantment = 'Enchantments',
+    Artifact = 'Artifacts',
+    Planeswalker = 'Planeswalkers',
+    Land = 'Lands',
+}
+
 export interface CubeStep {
     id: number;
     label: string;

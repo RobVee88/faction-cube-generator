@@ -22,6 +22,54 @@ export const getRandomCards = (cards: Card[], amount: number) => {
     return result;
 };
 
+const colorOrder = ['W', 'U', 'B', 'R', 'G', 'Colorless', 'Multicolor'];
+
+export const getCubeColors = (cube: Card[]) => {
+    let toRet: { title: string; colors: string[]; index: number }[] = [];
+
+    cube.reduce(
+        (cards, card) =>
+            cards.find(
+                (x) => x.colorIdentity.join('') === card.colorIdentity.join('')
+            )
+                ? [...cards]
+                : [...cards, card],
+        []
+    )
+        .map((card) => card.colorIdentity.join(''))
+        .forEach((color) => {
+            if (color.length === 1) {
+                toRet.push({
+                    title: color,
+                    colors: [color],
+                    index: colorOrder.findIndex((x) => x === color),
+                });
+            } else if (color.length === 0) {
+                toRet.push({
+                    title: 'Colorless',
+                    colors: [color],
+                    index: colorOrder.findIndex((x) => x === 'Colorless'),
+                });
+            } else {
+                if (toRet.find((x) => x.title === 'Multicolor')) {
+                    toRet[
+                        toRet.findIndex((x) => x.title === 'Multicolor')
+                    ].colors.push(color);
+                } else {
+                    toRet.push({
+                        title: 'Multicolor',
+                        colors: [color],
+                        index: colorOrder.findIndex((x) => x === 'Multicolor'),
+                    });
+                }
+            }
+        });
+
+    return toRet.sort((a, b) =>
+        a.index > b.index ? 1 : b.index > a.index ? -1 : 0
+    );
+};
+
 export const getColorDistribution = (cards: Card[]) => {
     let colorIdentityStats = {};
     cards.forEach((card) => {

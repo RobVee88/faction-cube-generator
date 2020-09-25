@@ -1,6 +1,5 @@
-import { useContext, createContext, useState } from 'react';
-import React from 'react';
-import { SetDescription, RarityDistribution, Filter, Card } from '@/util/types';
+import { Card, Filter, RarityDistribution, SetDescription } from '@/util/types';
+import React, { createContext, useContext } from 'react';
 
 export interface ICubeContext {
     setList: SetDescription[] | undefined;
