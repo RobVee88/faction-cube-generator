@@ -16,5 +16,5 @@ export const fetchApiData = async (
     return toRet;
 };
 
-export const getScryfallImage = (setCode: string, number: number) =>
+export const getScryfallImage = (setCode: string, number: string) =>
     `https://api.scryfall.com/cards/${setCode.toLowerCase()}/${number}?format=image&version=normal`;

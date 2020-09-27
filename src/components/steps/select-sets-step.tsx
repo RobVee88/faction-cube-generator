@@ -86,13 +86,27 @@ export const SelectSetsStep = () => {
                                 //ugly solution :(
                             }, `${selectedSet.code === 'CON' ? selectedSet.code + '_' : selectedSet.code}`).then(
                                 (setData: SetDescription) => {
+                                    const cardsWithSetCode = [];
+                                    setData.cards.forEach((card) =>
+                                        cardsWithSetCode.push({
+                                            ...card,
+                                            set: setData.code,
+                                        })
+                                    );
+                                    const setDataWithSetCodes = {
+                                        ...setData,
+                                        cards: cardsWithSetCode,
+                                    };
+                                    debugger;
                                     setSelectedSets((previous) => [
                                         ...previous,
-                                        setData,
+                                        setDataWithSetCodes,
                                     ]);
                                     setSetList(
                                         setList.filter(
-                                            (set) => set.code !== setData.code
+                                            (set) =>
+                                                set.code !==
+                                                setDataWithSetCodes.code
                                         )
                                     );
                                     setSelectedSet(undefined);

@@ -1,7 +1,7 @@
-import { getScryfallImage } from "@/util/api";
-import { Card } from "@/util/types";
-import { Tooltip, Typography } from "@material-ui/core";
-import React from "react";
+import { getScryfallImage } from '@/util/api';
+import { Card } from '@/util/types';
+import { Tooltip, Typography } from '@material-ui/core';
+import React from 'react';
 
 interface ICardDisplayProps {
     card: Card;
@@ -17,10 +17,11 @@ export const CardDisplay = (props: ICardDisplayProps) => {
                     <img
                         alt=''
                         width='100%'
-                        src={getScryfallImage(
-                            card.printings[0],
-                            Number(card.number)
-                        )}
+                        src={
+                            card?.set && card?.number
+                                ? getScryfallImage(card.set, card.number)
+                                : ''
+                        }
                     />
                 </div>
             }

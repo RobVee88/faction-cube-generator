@@ -74,6 +74,7 @@ export interface Card {
     type: string;
     types: string[];
     uuid: string;
+    set: string;
 }
 
 interface Ruling {
