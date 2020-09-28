@@ -36,9 +36,9 @@ const CubeSection = (props: ICubeSectionProps) => {
     const multiColors = getColorDistribution(cards).filter(
         (multiColor) => multiColor.color !== 'land'
     );
-
     return (
         <div
+            key={`${color}${cards[0].uuid}`}
             style={{
                 border: `1px solid ${displayColors.dark}`,
                 margin: '0px 5px',
@@ -62,7 +62,7 @@ const CubeSection = (props: ICubeSectionProps) => {
                 )
                 ?.map((multiColor) => {
                     return (
-                        <div>
+                        <div key={`${multiColor?.color}`}>
                             {multiColors.length > 1 && (
                                 <Typography
                                     style={{
@@ -107,6 +107,7 @@ const CubeSection = (props: ICubeSectionProps) => {
                                                     (filteredCard, i) => {
                                                         return (
                                                             <div
+                                                                key={`${filteredCard.uuid}${i}`}
                                                                 style={{
                                                                     backgroundColor:
                                                                         displayColors.light,
@@ -156,7 +157,9 @@ export const CubeDisplay = () => {
                 });
                 return (
                     cards?.length > 0 && (
-                        <div key={`${color}${i}`}>
+                        <div
+                            key={`${color.title}${i}${color.index}${color.colors[0]}`}
+                        >
                             <CubeSection color={color.title} cards={cards} />
                         </div>
                     )

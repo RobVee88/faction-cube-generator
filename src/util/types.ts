@@ -5,15 +5,99 @@ export enum Rarity {
     common = 'common',
 }
 
-export enum Filter {
-    noLand = 'Exclude lands',
-    noCreatures = 'Exclude creatures',
-    noInstants = 'Exclude instants',
-    noSorceries = 'Exclude sorceries',
-    noArtifacts = 'Exclude artifacts',
-    noEnchantments = 'Exclude enchantments',
-    noPlanesWalkers = 'Exclude planeswalkers (recommended)',
+export enum FilterTypes {
+    cardTypeFilter = 'Card type filters',
+    cmcFilter = 'CMC filters',
 }
+
+export interface Filter {
+    id: string | number;
+    desc: string;
+    filterType: FilterTypes;
+}
+
+export const Filters: Filter[] = [
+    {
+        id: 'Land',
+        desc: 'Exclude lands',
+        filterType: FilterTypes.cardTypeFilter,
+    },
+    {
+        id: 'Creature',
+        desc: 'Exclude creatures',
+        filterType: FilterTypes.cardTypeFilter,
+    },
+    {
+        id: 'Instant',
+        desc: 'Exclude instants',
+        filterType: FilterTypes.cardTypeFilter,
+    },
+    {
+        id: 'Sorcery',
+        desc: 'Exclude sorceries',
+        filterType: FilterTypes.cardTypeFilter,
+    },
+    {
+        id: 'Artifact',
+        desc: 'Exclude Artifacts',
+        filterType: FilterTypes.cardTypeFilter,
+    },
+    {
+        id: 'Enchantment',
+        desc: 'Exclude Enchantments',
+        filterType: FilterTypes.cardTypeFilter,
+    },
+    {
+        id: 'Planeswalker',
+        desc: 'Exclude planeswalkers (recommended)',
+        filterType: FilterTypes.cardTypeFilter,
+    },
+    {
+        id: 0,
+        desc: 'Exclude cmc 0',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 1,
+        desc: 'Exclude cmc 1',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 2,
+        desc: 'Exclude cmc 2',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 3,
+        desc: 'Exclude cmc 3',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 4,
+        desc: 'Exclude cmc 4',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 5,
+        desc: 'Exclude cmc 5',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 6,
+        desc: 'Exclude cmc 6',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 7,
+        desc: 'Exclude cmc 7',
+        filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 8,
+        desc: 'Exclude cmc 8+',
+        filterType: FilterTypes.cmcFilter,
+    },
+];
 
 export enum CardType {
     Creature = 'Creatures',

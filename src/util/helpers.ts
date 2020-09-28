@@ -1,4 +1,4 @@
-import { Card, Filter } from './types';
+import { Card, Filter, FilterTypes } from './types';
 
 export const convertCubeToCockatriceFormatting = (cube: Card[]) => {
     let cockatriceFormattedString = '';
@@ -52,9 +52,9 @@ export const getCubeColors = (cube: Card[]) => {
                 });
             } else {
                 if (toRet.find((x) => x.title === 'M')) {
-                    toRet[
-                        toRet.findIndex((x) => x.title === 'M')
-                    ].colors.push(color);
+                    toRet[toRet.findIndex((x) => x.title === 'M')].colors.push(
+                        color
+                    );
                 } else {
                     toRet.push({
                         title: 'M',
@@ -98,45 +98,22 @@ export const getColorDistribution = (cards: Card[]) => {
 };
 
 export const filterCard = (card: Card, cubeFilters: Filter[]) => {
-    if (cubeFilters.find((filter) => Filter[filter] === Filter.noLand)) {
-        if (card.types.find((type) => type === 'Land')) {
-            return false;
+    let toRet = true;
+    cubeFilters?.forEach((filter) => {
+        if (filter.filterType === FilterTypes.cardTypeFilter) {
+            if (card.types.find((type) => type === filter.id)) {
+                toRet = false;
+            }
         }
-    }
-    if (cubeFilters.find((filter) => Filter[filter] === Filter.noArtifacts)) {
-        if (card.types.find((type) => type === 'Artifact')) {
-            return false;
+        if (filter.filterType === FilterTypes.cmcFilter) {
+            if (filter.id === 8) {
+                if (card.convertedManaCost > 7) {
+                    toRet = false;
+                }
+            } else if (card.convertedManaCost === filter.id) {
+                toRet = false;
+            }
         }
-    }
-    if (cubeFilters.find((filter) => Filter[filter] === Filter.noCreatures)) {
-        if (card.types.find((type) => type === 'Creature')) {
-            return false;
-        }
-    }
-    if (
-        cubeFilters.find((filter) => Filter[filter] === Filter.noEnchantments)
-    ) {
-        if (card.types.find((type) => type === 'Enchantment')) {
-            return false;
-        }
-    }
-    if (cubeFilters.find((filter) => Filter[filter] === Filter.noInstants)) {
-        if (card.types.find((type) => type === 'Instant')) {
-            return false;
-        }
-    }
-    if (cubeFilters.find((filter) => Filter[filter] === Filter.noSorceries)) {
-        if (card.types.find((type) => type === 'Sorcery')) {
-            return false;
-        }
-    }
-    if (
-        cubeFilters.find((filter) => Filter[filter] === Filter.noPlanesWalkers)
-    ) {
-        if (card.types.find((type) => type === 'Planeswalker')) {
-            return false;
-        }
-    }
-
-    return true;
+    });
+    return toRet;
 };
