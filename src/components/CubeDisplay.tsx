@@ -1,4 +1,4 @@
-import { getCubeColors } from '@/util/helpers';
+import { getColorDistribution, getCubeColors } from '@/util/helpers';
 import { Card, CardType } from '@/util/types';
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
@@ -33,6 +33,8 @@ const CubeSection = (props: ICubeSectionProps) => {
 
     const displayColors = getColors(color);
 
+    const multiColors = getColorDistribution(cards).filter(multiColor => multiColor.color !== 'land');
+
     return (
         <div
             style={{
@@ -49,41 +51,58 @@ const CubeSection = (props: ICubeSectionProps) => {
                     backgroundColor: '#f4f4f4',
                 }}
             >{`${color} (${cards.length})`}</Typography>
-            {Object.keys(CardType).map((cardType, i) => {
-                const filteredCards = cards.filter((card) => {
-                    return card.types.includes('Creature')
-                        ? cardType === 'Creature'
-                        : card.types[0] === cardType;
-                });
-                cards = [
-                    ...cards.filter((card) => !filteredCards.includes(card)),
-                ];
+            {multiColors?.map((multiColor) => {
                 return (
-                    filteredCards?.length > 0 && (
-                        <div key={`${color}${cardType}${i}`}>
-                            <Typography
-                                style={{
-                                    fontSize: '14px',
-                                    borderBottom: `1px solid ${displayColors.dark}`,
-                                    borderTop: `1px solid ${displayColors.dark}`,
-                                    backgroundColor: '#f4f4f4',
-                                }}
-                            >
-                                {`${cardType}`}
-                            </Typography>
-                            <Grid item>
-                                {filteredCards.map((filteredCard, i) => {
-                                    return (
-                                        <CardDisplay
-                                            key={`${filteredCard}${color}${i}${cardType}`}
-                                            card={filteredCard}
-                                            fontSize={10}
-                                        />
-                                    );
-                                })}
-                            </Grid>
-                        </div>
-                    )
+                    <div>
+                        {multiColors.length > 1 && <Typography
+                            style={{
+                                fontSize: '14px',
+                                backgroundColor: '#f4f4f4',
+                                borderTop: `1px solid ${displayColors.dark}`
+                            }}
+                        >{`${multiColor?.color}`}</Typography>}
+                        {Object.keys(CardType).map((cardType, i) => {
+                            const filteredCards = cards.filter((card) => {
+                                return (card.types.includes('Creature')
+                                    ? cardType === 'Creature'
+                                    : card.types[0] === cardType) && card.colorIdentity.join('') === multiColor?.color
+                            });
+                            cards = [
+                                ...cards.filter(
+                                    (card) => !filteredCards.includes(card)
+                                ),
+                            ];
+                            return (
+                                filteredCards?.length > 0 && (
+                                    <div key={`${color}${cardType}${i}`}>
+                                        <Typography
+                                            style={{
+                                                fontSize: '12px',
+                                                borderBottom: `1px solid ${displayColors.dark}`,
+                                                borderTop: `1px solid ${displayColors.dark}`,
+                                                backgroundColor: '#f4f4f4',
+                                            }}
+                                        >
+                                            {`${cardType}`}
+                                        </Typography>
+                                        <Grid item>
+                                            {filteredCards.map(
+                                                (filteredCard, i) => {
+                                                    return (
+                                                        <CardDisplay
+                                                            key={`${filteredCard}${color}${i}${cardType}`}
+                                                            card={filteredCard}
+                                                            fontSize={10}
+                                                        />
+                                                    );
+                                                }
+                                            )}
+                                        </Grid>
+                                    </div>
+                                )
+                            );
+                        })}
+                    </div>
                 );
             })}
         </div>
