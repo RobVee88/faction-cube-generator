@@ -3,15 +3,15 @@ import {
     Button,
     Grid,
     ListItem,
-    ListItemText,
+
     TextField,
-    Typography,
+    Typography
 } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
-import { useCubeContext } from '../CubeContext';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { CardDisplay } from '../CardDisplay';
+import { useCubeContext } from '../CubeContext';
 
 export const IncludeCardsStep = () => {
     const {
