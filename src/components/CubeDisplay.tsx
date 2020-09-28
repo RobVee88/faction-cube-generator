@@ -12,13 +12,13 @@ interface ICubeSectionProps {
 
 const getColors = (colorIdentity: string) => {
     const displayColors = {
-        W: { dark: '#92927e', light: '#ffffeb' },
-        U: { dark: '#3591ec', light: '#d4edff' },
-        B: { dark: '#191819', light: '#d6cbd6' },
-        R: { dark: '#d83a3a', light: '#ffc8c8' },
-        G: { dark: '#4f712e', light: '#e9ffd4' },
-        C: { dark: '#76717b', light: '#e9e7eb' },
-        M: { dark: '#e4da13', light: '#fcf8a9' },
+        W: { dark: 'black', light: '#ffffeb' },
+        U: { dark: 'black', light: '#d4edff' },
+        B: { dark: 'black', light: '#d6cbd6' },
+        R: { dark: 'black', light: '#ffc8c8' },
+        G: { dark: 'black', light: '#e9ffd4' },
+        C: { dark: 'black', light: '#e9e7eb' },
+        M: { dark: 'black', light: '#fcf8a9' },
     };
 
     return colorIdentity.length === 1
@@ -40,7 +40,6 @@ const CubeSection = (props: ICubeSectionProps) => {
     return (
         <div
             style={{
-                backgroundColor: displayColors.light,
                 border: `1px solid ${displayColors.dark}`,
                 margin: '0px 5px',
                 maxWidth: 120,
@@ -107,13 +106,22 @@ const CubeSection = (props: ICubeSectionProps) => {
                                                 {filteredCards.map(
                                                     (filteredCard, i) => {
                                                         return (
-                                                            <CardDisplay
-                                                                key={`${filteredCard}${color}${i}${cardType}`}
-                                                                card={
-                                                                    filteredCard
-                                                                }
-                                                                fontSize={10}
-                                                            />
+                                                            <div
+                                                                style={{
+                                                                    backgroundColor:
+                                                                        displayColors.light,
+                                                                }}
+                                                            >
+                                                                <CardDisplay
+                                                                    key={`${filteredCard}${color}${i}${cardType}`}
+                                                                    card={
+                                                                        filteredCard
+                                                                    }
+                                                                    fontSize={
+                                                                        10
+                                                                    }
+                                                                />
+                                                            </div>
                                                         );
                                                     }
                                                 )}
