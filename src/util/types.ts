@@ -30,7 +30,7 @@ export const COLOR_COMBO_NAMES = {
     RU: 'Izzet',
     RW: 'Boros',
     GU: 'Simic',
-    BW: 'Orzhov',    
+    BW: 'Orzhov',
     GW: 'Selesnya',
     GR: 'Gruul',
     UW: 'Azorius',
@@ -45,8 +45,14 @@ export const COLOR_COMBO_NAMES = {
     GRU: 'Temur',
     BGW: 'Abzan',
     BRW: 'Mardu',
-    RUW: 'Jeskai'
-}
+    RUW: 'Jeskai',
+    UBRG: 'UBRG',
+    BRGW: 'BRGW',
+    RGWU: 'RGWU',
+    GWUB: 'GWUB',
+    WUBR: 'WUBR',
+    WUBRG: 'WUBRG',
+};
 
 export interface CubeStep {
     id: number;
