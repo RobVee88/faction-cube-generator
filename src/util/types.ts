@@ -8,6 +8,7 @@ export enum Rarity {
 export enum FilterTypes {
     cardTypeFilter = 'Card type filters',
     cmcFilter = 'CMC filters',
+    colorFilter = 'Color filters',
 }
 
 export interface Filter {
@@ -96,6 +97,41 @@ export const Filters: Filter[] = [
         id: 8,
         desc: 'Exclude cmc 8+',
         filterType: FilterTypes.cmcFilter,
+    },
+    {
+        id: 'W',
+        desc: 'Exclude white cards',
+        filterType: FilterTypes.colorFilter,
+    },
+    {
+        id: 'U',
+        desc: 'Exclude blue cards',
+        filterType: FilterTypes.colorFilter,
+    },
+    {
+        id: 'B',
+        desc: 'Exclude black cards',
+        filterType: FilterTypes.colorFilter,
+    },
+    {
+        id: 'R',
+        desc: 'Exclude red cards',
+        filterType: FilterTypes.colorFilter,
+    },
+    {
+        id: 'G',
+        desc: 'Exclude green cards',
+        filterType: FilterTypes.colorFilter,
+    },
+    {
+        id: 'C',
+        desc: 'Exclude colorless cards',
+        filterType: FilterTypes.colorFilter,
+    },
+    {
+        id: 'M',
+        desc: 'Exclude multicolor cards',
+        filterType: FilterTypes.colorFilter,
     },
 ];
 

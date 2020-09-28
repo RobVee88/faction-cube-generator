@@ -114,6 +114,19 @@ export const filterCard = (card: Card, cubeFilters: Filter[]) => {
                 toRet = false;
             }
         }
+        if (filter.filterType === FilterTypes.colorFilter) {
+            if (filter.id === 'C') {
+                if (card.colorIdentity.length === 0) {
+                    toRet = false;
+                }
+            } else if (filter.id === 'M') {
+                if (card.colorIdentity.length > 1) {
+                    toRet = false;
+                }
+            } else if (card.colorIdentity.includes(filter.id.toString())) {
+                toRet = false;
+            }
+        }
     });
     return toRet;
 };
