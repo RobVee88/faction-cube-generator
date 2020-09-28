@@ -22,7 +22,7 @@ export const getRandomCards = (cards: Card[], amount: number) => {
     return result;
 };
 
-const colorOrder = ['W', 'U', 'B', 'R', 'G', 'Colorless', 'Multicolor'];
+const colorOrder = ['W', 'U', 'B', 'R', 'G', 'C', 'M'];
 
 export const getCubeColors = (cube: Card[]) => {
     let toRet: { title: string; colors: string[]; index: number }[] = [];
@@ -46,20 +46,20 @@ export const getCubeColors = (cube: Card[]) => {
                 });
             } else if (color.length === 0) {
                 toRet.push({
-                    title: 'Colorless',
+                    title: 'C',
                     colors: [color],
-                    index: colorOrder.findIndex((x) => x === 'Colorless'),
+                    index: colorOrder.findIndex((x) => x === 'C'),
                 });
             } else {
-                if (toRet.find((x) => x.title === 'Multicolor')) {
+                if (toRet.find((x) => x.title === 'M')) {
                     toRet[
-                        toRet.findIndex((x) => x.title === 'Multicolor')
+                        toRet.findIndex((x) => x.title === 'M')
                     ].colors.push(color);
                 } else {
                     toRet.push({
-                        title: 'Multicolor',
+                        title: 'M',
                         colors: [color],
-                        index: colorOrder.findIndex((x) => x === 'Multicolor'),
+                        index: colorOrder.findIndex((x) => x === 'M'),
                     });
                 }
             }

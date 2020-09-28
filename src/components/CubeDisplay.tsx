@@ -1,5 +1,5 @@
 import { getColorDistribution, getCubeColors } from '@/util/helpers';
-import { Card, CardType } from '@/util/types';
+import { Card, CardType, COLOR_COMBO_NAMES } from '@/util/types';
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
 import { CardDisplay } from './CardDisplay';
@@ -17,15 +17,15 @@ const getColors = (colorIdentity: string) => {
         B: { dark: '#191819', light: '#d6cbd6' },
         R: { dark: '#d83a3a', light: '#ffc8c8' },
         G: { dark: '#4f712e', light: '#e9ffd4' },
-        Colorless: { dark: '#76717b', light: '#e9e7eb' },
-        Multicolor: { dark: '#e4da13', light: '#fcf8a9' },
+        C: { dark: '#76717b', light: '#e9e7eb' },
+        M: { dark: '#e4da13', light: '#fcf8a9' },
     };
 
     return colorIdentity.length === 1
         ? displayColors[colorIdentity]
-        : colorIdentity === 'Multicolor'
-        ? displayColors['Multicolor']
-        : displayColors['Colorless'];
+        : colorIdentity === 'M'
+        ? displayColors['M']
+        : displayColors['C'];
 };
 
 const CubeSection = (props: ICubeSectionProps) => {
@@ -60,7 +60,7 @@ const CubeSection = (props: ICubeSectionProps) => {
                                 backgroundColor: '#f4f4f4',
                                 borderTop: `1px solid ${displayColors.dark}`
                             }}
-                        >{`${multiColor?.color}`}</Typography>}
+                        >{`${COLOR_COMBO_NAMES[multiColor?.color]}`}</Typography>}
                         {Object.keys(CardType).map((cardType, i) => {
                             const filteredCards = cards.filter((card) => {
                                 return (card.types.includes('Creature')

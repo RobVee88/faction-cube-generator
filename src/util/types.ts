@@ -25,6 +25,29 @@ export enum CardType {
     Land = 'Lands',
 }
 
+export const COLOR_COMBO_NAMES = {
+    BG: 'Golgari',
+    RU: 'Izzet',
+    RW: 'Boros',
+    GU: 'Simic',
+    BW: 'Orzhov',    
+    GW: 'Selesnya',
+    GR: 'Gruul',
+    UW: 'Azorius',
+    BU: 'Dimir',
+    BR: 'Rakdos',
+    GRW: 'Naya',
+    BGR: 'Jund',
+    GUW: 'Bant',
+    BRU: 'Grixis',
+    BUW: 'Esper',
+    BGU: 'Sultai',
+    GRU: 'Temur',
+    BGW: 'Abzan',
+    BRW: 'Mardu',
+    RUW: 'Jeskai'
+}
+
 export interface CubeStep {
     id: number;
     label: string;
