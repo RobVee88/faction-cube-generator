@@ -97,7 +97,6 @@ export const SelectSetsStep = () => {
                                         ...setData,
                                         cards: cardsWithSetCode,
                                     };
-                                    debugger;
                                     setSelectedSets((previous) => [
                                         ...previous,
                                         setDataWithSetCodes,
