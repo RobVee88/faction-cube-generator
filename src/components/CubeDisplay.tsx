@@ -75,15 +75,34 @@ const CubeSection = (props: ICubeSectionProps) => {
                                 }`}</Typography>
                             )}
                             {Object.keys(CardType).map((cardType, i) => {
-                                const filteredCards = cards.filter((card) => {
-                                    return (
-                                        (card.types.includes('Creature')
-                                            ? cardType === 'Creature'
-                                            : card.types[0] === cardType) &&
-                                        card.colorIdentity.join('') ===
-                                            multiColor?.color
-                                    );
-                                });
+                                const filteredCards = cards
+                                    .filter((card) => {
+                                        return (
+                                            (card.types.includes('Creature')
+                                                ? cardType === 'Creature'
+                                                : card.types[0] === cardType) &&
+                                            card.colorIdentity.join('') ===
+                                                multiColor?.color
+                                        );
+                                    })
+                                    .sort((a, b) => {
+                                        if (
+                                            a.convertedManaCost ===
+                                            b.convertedManaCost
+                                        ) {
+                                            return b.edhrecRank - a.edhrecRank;
+                                        } else if (
+                                            a.convertedManaCost >
+                                            b.convertedManaCost
+                                        ) {
+                                            return 1;
+                                        } else if (
+                                            a.convertedManaCost <
+                                            b.convertedManaCost
+                                        ) {
+                                            return -1;
+                                        }
+                                    });
                                 cards = [
                                     ...cards.filter(
                                         (card) => !filteredCards.includes(card)
