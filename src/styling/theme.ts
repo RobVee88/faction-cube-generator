@@ -12,7 +12,8 @@ export const cubeTheme = createMuiTheme({
     },
     typography: {
         allVariants: {
-            opacity: 0.6,
+            opacity: 1,
+            color: '#656565'
         },
     },
 });
