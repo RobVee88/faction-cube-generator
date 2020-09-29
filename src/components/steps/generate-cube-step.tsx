@@ -42,7 +42,7 @@ export const GenerateCubeStep = () => {
                     type='number'
                     label='Cube Size'
                     variant='outlined'
-                    value={cubeSize > 0 ? cubeSize : undefined}
+                    value={cubeSize > 0 ? cubeSize : ''}
                     onChange={(e) => setCubeSize(Number(e.target.value))}
                 />
                 <Button
